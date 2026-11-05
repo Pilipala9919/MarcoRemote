@@ -50,3 +50,6 @@
 你方便操作电视时，按手册完成“本机开启→Windows严格验身份→电视批准/拒绝→假计数→电视主动撤销”，再逐次验证重放、challenge过期、真实空闲超时、断线和Activity暂停。保留双方对应日志与本机操作证据。票据不要贴入聊天或提交仓库。
 
 本轮不继续真实桌面接入。只有G1-B1人工会话验收通过，才进入 **G1-B2：正式接入HomeView与MarcoFocusController**。这以最新用户阶段定义为准，替代早期文档把B2称为“只做会话”的拆分。
+
+
+实现提交的 [PR CI](https://github.com/Pilipala9919/MarcoTV/actions/runs/42016961345) 和 [push CI](https://github.com/Pilipala9919/MarcoTV/actions/runs/42016951537) 已完成且均成功，独立TLS策略/Android构建步骤通过；两次上传产物数均为0。CI不替代上述人工会话验收。
