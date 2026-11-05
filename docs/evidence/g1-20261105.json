@@ -1,0 +1,98 @@
+{
+  "generated_utc": "2026-11-05T05:10:25.954961+00:00",
+  "phase": "G1-A pure domain only",
+  "marcotv_commit": "8ab4ec1dc0c82d1abb1c0b1662128359a19955d9",
+  "marcotv_base": "a9d6cb8b64fd2e9030c82addd22edc40a5e755c0",
+  "source_sha256": {
+    "app/src/main/java/com/pilipala/tvhome/MarcoFocusController.java": "206fe098a5ca8281ad497e4945fa5f830b9d4d5ae4caa7f48f5e1d72223c3ffc",
+    "scripts/MarcoFocusChecks.java": "c292f582f2589ea0a45781b97033df5b1564995d85bf2185b6d84ad7eb3223cd"
+  },
+  "host_tests": {
+    "scenarios": 18,
+    "enumerated_transitions": 2736,
+    "assertions": 23233,
+    "offline_suites": 17,
+    "offline_seconds": 24.53,
+    "passed": true,
+    "log_sha256": "6ecee89a9398f439aebe9cf47e680970103979d0ab3abee25732d4216f6652e8"
+  },
+  "android_build": {
+    "passed": true,
+    "standard_compile_api": 28,
+    "standard_d8_min_api": 23,
+    "lite_compile_api": 14,
+    "artifacts": {
+      "MarcoTV-0.15.0.apk": {
+        "sha256": "438807c5125dc1cca7fa9f4a0a8e03174eb3d38d883f6b9fb1f119d075b48588",
+        "bytes": 1763618
+      },
+      "MarcoTV-0.15.0-Restricted.apk": {
+        "sha256": "8a9084320b7417d26b764c911a0ef94a42707012f76d7a18d724768635b1607d",
+        "bytes": 1759522
+      },
+      "MarcoTV-Lite-0.1.2.apk": {
+        "sha256": "e6d4da02a2a8276602907bd3e427841dd9bd28cb241b844506bd7a2deb15c779",
+        "bytes": 308630
+      }
+    },
+    "signer_sha256": "3cede5cff20abb264457e1d1ec2a2d931d1f03cb94f8ef00e6e92e97c22df10c",
+    "official_signer": false,
+    "installed": false,
+    "released": false
+  },
+  "device_runtime": {
+    "kind": "pure-domain-on-ART-not-UI-or-LAN",
+    "started_utc": "2026-11-05T05:07:32.149507+00:00",
+    "dex_sha256": "1777c103ab37dde904afbff63ce5ad476b8335dd306612cfa5680b434d1429f3",
+    "source_sha256": {
+      "app/src/main/java/com/pilipala/tvhome/MarcoFocusController.java": "206fe098a5ca8281ad497e4945fa5f830b9d4d5ae4caa7f48f5e1d72223c3ffc",
+      "scripts/MarcoFocusChecks.java": "c292f582f2589ea0a45781b97033df5b1564995d85bf2185b6d84ad7eb3223cd"
+    },
+    "device": {
+      "ro.product.model": "MiTV-ASTP0",
+      "ro.build.version.release": "9",
+      "ro.build.version.sdk": "28",
+      "ro.build.display.id": "22.8.30.1385"
+    },
+    "passed": true,
+    "cleanup_passed": true,
+    "stdout": "PASS closed by default; lease fences are not credentials\nPASS four directions; saved selection per row; skip empty rows\nPASS all four boundaries stay in cards and do not revise\nPASS empty layouts, empty active row, and header are unavailable\nPASS local remote boundary and ABA both invalidate queued snapshots\nPASS layout shrink, same-size reorder, removal, and restore cancel old commands\nPASS every surface blocker cancels queued commands; clear requires fresh lease\nPASS overlapping dialogs and window loss cannot clear each other\nPASS disconnect, reconnect and lease replacement never replay old input\nPASS lease expiry at exact deadline and snapshot-triggered expiry\nPASS command TTL starts before queue wait and expires exactly at deadline\nPASS single-use commands and concurrent snapshot conflicts\nPASS destroy and recreation never revive commands even at matching revisions\nPASS invalid input fails atomically; layout and snapshot ownership are defensive\nPASS nulls, bounds and duration overflow cannot grant or extend a lease\nPASS clock regression permanently closes the controller\nPASS all entry points enforce owner thread before any state change\nPASS small-layout enumeration: direction, boundary, revision and scope invariants\nPASS MarcoFocusChecks: 18 scenarios, 2736 enumerated transitions, 23233 assertions\n"
+  },
+  "device_runtime_log_sha256": "aa03dce3ba0f295aa956977376981cf691b9fe59681df51ca61c190291c24977",
+  "visible_focus_e2e": {
+    "passed": false,
+    "status": "NOT_IMPLEMENTED_NOT_RUN",
+    "homeview_adapter": false,
+    "tls_session": false,
+    "tv_approval": false,
+    "windows_lan_client": false,
+    "reason": "Allowed pure-controller slice; no unauthenticated network shortcut"
+  },
+  "unchanged_from_base": [
+    "AndroidManifest",
+    "HomeView",
+    "MainActivity",
+    "PhoneHttp",
+    "PhoneManager"
+  ],
+  "ci": [
+    {
+      "id": 41972228595,
+      "event": "pull_request",
+      "head_sha": "8ab4ec1dc0c82d1abb1c0b1662128359a19955d9",
+      "conclusion": "success",
+      "url": "https://github.com/Pilipala9919/MarcoTV/actions/runs/41972228595",
+      "focus_test_step": "success",
+      "uploaded_artifacts": 0
+    },
+    {
+      "id": 41972222957,
+      "event": "push",
+      "head_sha": "8ab4ec1dc0c82d1abb1c0b1662128359a19955d9",
+      "conclusion": "success",
+      "url": "https://github.com/Pilipala9919/MarcoTV/actions/runs/41972222957",
+      "focus_test_step": "success",
+      "uploaded_artifacts": 0
+    }
+  ]
+}
