@@ -1,0 +1,7 @@
+# Protocol source fixed to the previously reviewed Apache-2.0 commit.
+androidtvremote2 @ git+https://github.com/tronikos/androidtvremote2.git@f49cf04703af1565e6216f1fc095b7d0477ca4a4
+aiofiles==25.1.0
+cryptography==50.0.2
+protobuf==7.36.2
+zeroconf==0.148.0
+ifaddr==0.2.0

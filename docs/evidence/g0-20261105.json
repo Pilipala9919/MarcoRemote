@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "evidence_kind": "real_device_read_only_probe",
+  "utc": "2026-11-05T04:40:34.665982+00:00",
+  "target_alias": "xiaomi-android9-tv",
+  "model": "MiTV-ASTP0",
+  "android": "9",
+  "sdk": "28",
+  "firmware": "22.8.30.1385",
+  "tcp": [
+    {
+      "result": "ConnectionRefusedError",
+      "errno": 10061,
+      "port": 6466,
+      "elapsed_ms": 2060.2,
+      "attempt": 1
+    },
+    {
+      "result": "ConnectionRefusedError",
+      "errno": 10061,
+      "port": 6467,
+      "elapsed_ms": 2065.2,
+      "attempt": 1
+    },
+    {
+      "result": "ConnectionRefusedError",
+      "errno": 10061,
+      "port": 6466,
+      "elapsed_ms": 2044.8,
+      "attempt": 2
+    },
+    {
+      "result": "ConnectionRefusedError",
+      "errno": 10061,
+      "port": 6467,
+      "elapsed_ms": 2045.8,
+      "attempt": 2
+    },
+    {
+      "result": "ConnectionRefusedError",
+      "errno": 10061,
+      "port": 6466,
+      "elapsed_ms": 2054.8,
+      "attempt": 3
+    },
+    {
+      "result": "ConnectionRefusedError",
+      "errno": 10061,
+      "port": 6467,
+      "elapsed_ms": 2059.3,
+      "attempt": 3
+    }
+  ],
+  "google_remote_package_path_exit": 1,
+  "google_remote_packages_including_uninstalled": "",
+  "mdns": {
+    "result": "completed",
+    "duration_seconds": 15,
+    "records": []
+  },
+  "listeners": {
+    "listeners": {
+      "query_exit": 0,
+      "v2_listening_ports": []
+    },
+    "listeners6": {
+      "query_exit": 0,
+      "v2_listening_ports": []
+    }
+  },
+  "raw_local_log_sha256": "380ad80bd6ecf8f52e53ec20893cd0c83e8eb9ebb621b69c169d92190d5e004c"
+}

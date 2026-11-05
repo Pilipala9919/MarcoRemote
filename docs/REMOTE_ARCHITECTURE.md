@@ -1,6 +1,21 @@
 # Marco Remote 可落地架构
 
-日期：2026-11-05。状态：**待实现的设计方案**。基线为 Marco TV 0.15.0 / `a9d6cb8b64fd2e9030c82addd22edc40a5e755c0`。研究证据、固定仓库提交、许可证及本次测试见 [REMOTE_RESEARCH.md](REMOTE_RESEARCH.md)。本文件不表示已经增加这些功能；本次只新增这两份文档。
+日期：2026-11-05。状态：**待实现的设计方案，已补充G0真实设备结果**。基线为 Marco TV 0.15.0 / `a9d6cb8b64fd2e9030c82addd22edc40a5e755c0`。研究证据见 [REMOTE_RESEARCH.md](REMOTE_RESEARCH.md)，本轮证据见 [G0_DEVICE_REPORT.md](G0_DEVICE_REPORT.md)。以下G0调整优先于原阶段安排；后文完整产品蓝图不代表本轮实施范围。
+
+## G0调整与新增决策（2026-11-05）
+
+| 决策 | 当前处理 | 证据等级/理由 |
+|---|---|---|
+| A09 Windows先验证现有电视 | G0不先做iOS RSA/Swift客户端，使用固定androidtvremote2与只读probe | D：真实MiTV-ASTP0 Android9可达，但6466/6467拒绝；P：先解决可用控制路线 |
+| A10 增加MarcoOwnApp适配器 | 与AndroidTvV2并列，独立受限会话控制自身卡片焦点，不改旧管理HTTP | C：HomeView自行管理row/selected；P：新接口尚未实现，不能直接转发通用按键 |
+| A11 按意图、scope、可用性选择 | 已授权的ownApp意图可自动选原生；不能从ownApp静默升为tvSystem | P：统一能力模型可行，须有真机正例及选择器测试；见备选方案 |
+| A12 原生切片先于完整客户端 | 下一阶段先做焦点转换+安全会话+Windows验证，不扩权限 | D：当前v2配对阻塞；P：原生可行性仍需独立验证 |
+
+新增逻辑路径：`SessionCoordinator → MarcoOwnAppAdapter → 新的受限TLS会话 → MarcoFocusController → 卡片焦点状态`。这不是现成能力，不经过系统InputManager/ADB/无障碍，不自动启动其他App；管理入口仍是独立能力。完整设计及源码链接：[G0_NATIVE_FALLBACK.md](G0_NATIVE_FALLBACK.md)。
+
+阶段依赖更新：**G0-Windows真机调查（本轮完成，v2成功门槛未过）→ 原生最小焦点/安全端点验证 → 两路线统一能力选择测试 → 最小客户端**。原G1–G7中面向桌面接收端的任务暂缓，iOS证书spike等待可用v2目标；Windows/macOS完整receiver及虚拟手柄不纳入本轮。原§8的G0 iOS配对器表项由此安排取代，其余为长期候选，不是正在执行。
+
+已验证/未验证矩阵、测试工具与复测步骤分别见 [G0_DEVICE_REPORT.md](G0_DEVICE_REPORT.md) 和 [G0_RUNBOOK.md](G0_RUNBOOK.md)。没有修改Marco TV main或其他稳定代码。
 
 ## 1. 产品边界与架构决策
 
