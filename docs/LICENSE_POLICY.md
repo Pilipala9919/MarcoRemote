@@ -49,3 +49,8 @@ TV 当前许可证证据：[固定基线 LICENSE](https://github.com/Pilipala991
 3. 安全单独审核：TLS 协议版本、证书/完整 pin 校验、私钥储存、随机数、撤销、日志泄密与失败处理。许可证允许不能替代安全审查。
 4. Android 平台 TLS/AndroidKeyStore 是候选，需 Android 9 真机兼容和 Windows 严格 pin spike；**本轮尚未批准任何完整安全会话实现**。
 5. 没有来源许可、需要敏感输入权限或不能明确关闭认证失败路径的实现不进入产品。不得为赶真机演示引入固定明文 token/HTTP 遥控入口。
+
+
+## G1-B1 本轮补充
+
+独立测试包与 Windows 客户端位于 MarcoTV `security-spike`，原创 GPL-3.0-only；未复制到 MarcoRemote 后重许可。Android使用平台JSSE/AndroidKeyStore，Windows客户端仅Python标准库ssl。证书测试复用已审查的cryptography50.0.2开发依赖，未进入APK。真实TLS兼容/负例已记录在 [B1报告](G1_B1_REPORT.md)，这不是独立安全审计或产品分发准入。正式消费者扫码/配对、debug移除、系统补丁和传递依赖SBOM仍需另审。早期“尚无TLS实现”描述属于G1-A时点，由此记录更新。

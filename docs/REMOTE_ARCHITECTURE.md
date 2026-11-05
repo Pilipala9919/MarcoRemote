@@ -2,6 +2,20 @@
 
 日期：2026-11-05。状态：**设计方案，G0已记录，G1-A纯控制器已实现；安全端到端待验证**。基线为 Marco TV 0.15.0 / `a9d6cb8b64fd2e9030c82addd22edc40a5e755c0`。研究证据见 [REMOTE_RESEARCH.md](REMOTE_RESEARCH.md)，本轮证据见 [G0_DEVICE_REPORT.md](G0_DEVICE_REPORT.md)。以下G0调整优先于原阶段安排；后文完整产品蓝图不代表本轮实施范围。
 
+## G1-B1 更新：安全通信与配对验证（2026-11-05）
+
+最新范围与证据见 [G1-B1报告](G1_B1_REPORT.md)。独立debug验证包实现AndroidKeyStore身份、系统TLS、Windows完整pin与证书校验、短期票据/电视批准、临时连接会话、seq/challenge和撤销，命令只接假输入计数器。真实Android9已证明TLS握手、错误信任拒绝、进程重启身份保持；人工电视配对/拒绝/撤销尚未执行，**整体G1-B1未通过**。
+
+| 决策 | 当前状态 |
+|---|---|
+| A19 严格分离诊断与授权 | 60秒握手诊断没有应用命令/票据；不能替代电视主动开启和明确批准 |
+| A20 原生spike使用连接绑定授权 | 无持久客户端token；断线/撤销后重新在电视开窗口并批准，TLS恢复不恢复业务授权 |
+| A21 pin是带外信任边界 | Windows CERT_REQUIRED与唯一带外证书、自签名/有效期/完整leaf pin/CN全部完成后才能发送票据；无CERT_NONE fallback |
+| A22 先解决真实接网一致性 | G1-A prepare TTL起算点、旧revision映射、跨线程撤销与UI提交需在B2另行解决；当前假执行器测试不宣称这些已集成 |
+| A23 阶段定义更新 | G1-B1=安全通信+配对+假执行器验证；通过后G1-B2=正式接入HomeView/MarcoFocusController。以下旧B1/B2/B3/B4拆分保留历史，受此安排覆盖 |
+
+没有修改稳定main、发布APK或修改真实焦点。独立测试APK已安装供真机握手，当前停止。代码/Windows测试工具在MarcoTV中保持GPL-3.0-only，未移入拟Apache的Remote代码域。
+
 ## G1-A 决策更新（2026-11-05）
 
 当前只完成 **MarcoTV 纯焦点控制器与测试**，详见 [G1 实际验证报告](G1_DEVICE_REPORT.md) 和 [实现 PR](https://github.com/Pilipala9919/MarcoTV/pull/2)。主机单元测试、Android 构建与真实电视 ART 逻辑测试已通过；安全 LAN 会话、电视批准、HomeView 适配和可见焦点端到端未实现。不得把历史完整产品蓝图或 G0 的建议当成现有功能。
