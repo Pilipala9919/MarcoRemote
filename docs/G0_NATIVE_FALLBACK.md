@@ -1,4 +1,6 @@
-# Marco TV 原生桌面焦点备选（P：尚未实现）
+# Marco TV 原生桌面焦点备选（G0 设计记录）
+
+**G1-A 更新：** 纯 MarcoFocusController 已在独立 MarcoTV 分支实现并通过领域测试、Android 构建及真机 ART 逻辑测试；尚未接入 HomeView/TLS/电视批准/网络，不能改变真实桌面焦点。当前状态及证据以 [G1 报告](G1_DEVICE_REPORT.md) 为准。以下内容保留 G0 设计时点，标为 P 的端点和统一选择器仍未实现。新增表面 blocker 会撤销临时执行许可，清除后需新授权；这比早期“暂停”的表述更严格。
 
 ## 源码依据与严格范围
 

@@ -1,6 +1,23 @@
 # Marco Remote 可落地架构
 
-日期：2026-11-05。状态：**待实现的设计方案，已补充G0真实设备结果**。基线为 Marco TV 0.15.0 / `a9d6cb8b64fd2e9030c82addd22edc40a5e755c0`。研究证据见 [REMOTE_RESEARCH.md](REMOTE_RESEARCH.md)，本轮证据见 [G0_DEVICE_REPORT.md](G0_DEVICE_REPORT.md)。以下G0调整优先于原阶段安排；后文完整产品蓝图不代表本轮实施范围。
+日期：2026-11-05。状态：**设计方案，G0已记录，G1-A纯控制器已实现；安全端到端待验证**。基线为 Marco TV 0.15.0 / `a9d6cb8b64fd2e9030c82addd22edc40a5e755c0`。研究证据见 [REMOTE_RESEARCH.md](REMOTE_RESEARCH.md)，本轮证据见 [G0_DEVICE_REPORT.md](G0_DEVICE_REPORT.md)。以下G0调整优先于原阶段安排；后文完整产品蓝图不代表本轮实施范围。
+
+## G1-A 决策更新（2026-11-05）
+
+当前只完成 **MarcoTV 纯焦点控制器与测试**，详见 [G1 实际验证报告](G1_DEVICE_REPORT.md) 和 [实现 PR](https://github.com/Pilipala9919/MarcoTV/pull/2)。主机单元测试、Android 构建与真实电视 ART 逻辑测试已通过；安全 LAN 会话、电视批准、HomeView 适配和可见焦点端到端未实现。不得把历史完整产品蓝图或 G0 的建议当成现有功能。
+
+| 决策 | G1-A 处理 | 证据与后续门槛 |
+|---|---|---|
+| A13 先交付纯领域切片 | 新 MarcoFocusController，无 Android/网络依赖，无生产调用者 | C/T：18 场景、2736 个枚举转换；D-runtime：同测试在 Android9 ART 通过；不是 D-UI |
+| A14 原生输入严格限卡片 | 只允许四向；跳空行、保留每行选中列、边界不越出卡片；同尺寸布局替换也更新 revision | C/T：生产 reducer + 测试；HomeView 提交适配器留待安全接入阶段 |
+| A15 取消先于恢复 | 任一表面 blocker 新出现即撤销 lease；清除 blocker 不恢复授权。本地遥控/布局变化保留有效 lease 但拒绝旧 revision，要求新快照 | C/T；后续真实生命周期事件映射仍未验证。此规则优先于早期仅“暂停”的模糊描述 |
+| A16 epoch 不是凭据 | beginAuthorizedLease 仅是受信任进程内调用前提，未实现认证；没有网络 commandId 去重/限流 | 安全会话单独审核；不得把 epoch 或测试入口暴露成 LAN token |
+| A17 仍不开放输入接口 | 不改 PhoneHttp/PhoneManager、不增加权限、不安装或发布 APK；CI 自动运行不上传 APK | C：固定提交的文件差异；P：TLS/pin/电视批准全部通过后再接 Windows 客户端 |
+| A18 许可证分域 | Remote 原创独立代码拟 Apache-2.0，尚未正式加根 LICENSE；TV 新类及测试 GPL-3.0-only | [许可与准入记录](LICENSE_POLICY.md)；G0 开发依赖不自动获得产品分发准入 |
+
+当前实现链仅为 `测试 → MarcoFocusController → 内存 Result/Snapshot`。计划中的 `Windows 客户端 → TLS/电视批准/临时会话 → UI 线程适配器 → HomeView 可见卡片` 仍是 P，不提供未认证演示接口。控制器 MOVED 只表示领域状态已变，未来的 UI 提交 ACK 也应与实际可见证据分开。
+
+下一依赖顺序：**G1-A（本次纯控制器）→ G1-B1 TLS/批准隔离验证 → G1-B2 临时安全会话 → G1-B3 UI/Windows 适配 → G1-B4 真机四向与故障验收**。实现和复现细节见报告。AndroidTvV2 的 G0 阻塞结果不变；自动能力选择仍待实现，当前原生网络能力不能宣告可用。失焦/认证失败时不自动升到 tvSystem、ADB 或其他输入通道。
 
 ## G0调整与新增决策（2026-11-05）
 
