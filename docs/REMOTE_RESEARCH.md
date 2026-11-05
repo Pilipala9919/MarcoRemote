@@ -1,6 +1,8 @@
 # Marco Remote 技术研究
 
-研究日期：2026-11-05（Asia/Shanghai）。范围：指定的六个公开项目，以及 Marco TV 0.15.0 基线。本文与 [REMOTE_ARCHITECTURE.md](REMOTE_ARCHITECTURE.md) 是本次全部交付物；未移植第三方实现，未修改、构建或安装本机稳定版应用。
+研究日期：2026-11-05（Asia/Shanghai）。范围：指定的六个公开项目，以及 Marco TV 0.15.0 基线。初轮仅交付本文与架构文档；后续G0已新增 [真实设备报告](G0_DEVICE_REPORT.md)、[复测手册](G0_RUNBOOK.md)、[原生焦点备选](G0_NATIVE_FALLBACK.md) 及独立Windows验证脚本。未移植第三方实现，未修改、构建或安装本机稳定版应用。
+
+**G0更新（D）：** 已用Windows连接真实MiTV-ASTP0/Android9；三轮6466/6467拒绝连接、15秒指定网卡mDNS无v2记录、已知Google Remote Service包未找到，协议配对首步CannotConnect。方向键/成功会话断开重连未验证。后文§9“尚未执行”是初轮研究时点记录，当前状态以G0报告为准，不能继续当作没有接触过真机。原生备选仅控制Marco自身卡片焦点，属于P，尚无实现/设备成功证据。
 
 ## 1. 结论与证据等级
 
