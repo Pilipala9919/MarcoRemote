@@ -1,10 +1,10 @@
 # Marco Remote 可落地架构
 
-日期：2026-11-05。状态：**设计方案，G0已记录，G1-A纯控制器已实现；安全端到端待验证**。基线为 Marco TV 0.15.0 / `a9d6cb8b64fd2e9030c82addd22edc40a5e755c0`。研究证据见 [REMOTE_RESEARCH.md](REMOTE_RESEARCH.md)，本轮证据见 [G0_DEVICE_REPORT.md](G0_DEVICE_REPORT.md)。以下G0调整优先于原阶段安排；后文完整产品蓝图不代表本轮实施范围。
+更新：2026-11-06。状态：**G0已记录，G1-A纯控制器已实现，G1-B1假输入安全会话取得真机证据、待阶段审查；真实焦点接入尚未实施**。基线为 Marco TV 0.15.0 / `a9d6cb8b64fd2e9030c82addd22edc40a5e755c0`。研究证据见 [REMOTE_RESEARCH.md](REMOTE_RESEARCH.md)，阶段证据见 [G0_DEVICE_REPORT.md](G0_DEVICE_REPORT.md) 和 [G1_B1_REPORT.md](G1_B1_REPORT.md)。最新阶段调整优先；后文完整产品蓝图不代表本轮实施范围。
 
-## G1-B1 更新：安全通信与配对验证（2026-11-05）
+## G1-B1 更新：安全通信与配对验证（2026-11-06）
 
-最新范围与证据见 [G1-B1报告](G1_B1_REPORT.md)。独立debug验证包实现AndroidKeyStore身份、系统TLS、Windows完整pin与证书校验、短期票据/电视批准、临时连接会话、seq/challenge和撤销，命令只接假输入计数器。真实Android9已证明TLS握手、错误信任拒绝、进程重启身份保持；人工电视配对/拒绝/撤销尚未执行，**整体G1-B1未通过**。
+最新范围与证据见 [G1-B1报告](G1_B1_REPORT.md)。独立debug验证包实现AndroidKeyStore身份、系统TLS、Windows完整pin与证书校验、短期票据/电视批准、临时连接会话、seq/challenge和撤销，命令只接假输入计数器。真实Android9已验证本机批准/拒绝、假输入、重放/过期challenge、主动断线、按钮撤销、15秒空闲和5分钟绝对期限；失败版本及修复复测单列。**技术验证交付，等待G1-B1用户审查，不自动进入B2。** 票据自然到期等仅有C/T，真实焦点仍未接入。
 
 | 决策 | 当前状态 |
 |---|---|
@@ -13,12 +13,15 @@
 | A21 pin是带外信任边界 | Windows CERT_REQUIRED与唯一带外证书、自签名/有效期/完整leaf pin/CN全部完成后才能发送票据；无CERT_NONE fallback |
 | A22 先解决真实接网一致性 | G1-A prepare TTL起算点、旧revision映射、跨线程撤销与UI提交需在B2另行解决；当前假执行器测试不宣称这些已集成 |
 | A23 阶段定义更新 | G1-B1=安全通信+配对+假执行器验证；通过后G1-B2=正式接入HomeView/MarcoFocusController。以下旧B1/B2/B3/B4拆分保留历史，受此安排覆盖 |
+| A24 授权撤销与传输关闭分开 | C/T/D：先同步使授权失效，再后台执行可能联网的TLS close_notify；Android9按钮关闭崩溃已修复且真机复测。UI提交仍需B2定义原子先后边界 |
+| A25 屏保不延长授权 | C/D：暂停取消保持有效；仅独立验证包已批准会话设置窗口亮屏，期限/撤销后清除。五分钟验证有59次保活但仍关闭；不改变系统屏保，不直接搬入产品 |
+| A26 按能力和证据层发布状态 | B1只证明fake executor，不宣告nativeFocus可用；统一能力选择仍待实现。B2须同时满足授权、真实surface可用、revision/期限校验，认证失败不能降级到旧明文接口 |
 
-没有修改稳定main、发布APK或修改真实焦点。独立测试APK已安装供真机握手，当前停止。代码/Windows测试工具在MarcoTV中保持GPL-3.0-only，未移入拟Apache的Remote代码域。
+没有修改稳定main、发布APK或修改真实焦点。独立测试APK用于人工会话，最终会话到期、listener关闭并恢复屏保。代码/Windows测试工具在MarcoTV中保持GPL-3.0-only，未移入拟Apache的Remote代码域。
 
 ## G1-A 决策更新（2026-11-05）
 
-当前只完成 **MarcoTV 纯焦点控制器与测试**，详见 [G1 实际验证报告](G1_DEVICE_REPORT.md) 和 [实现 PR](https://github.com/Pilipala9919/MarcoTV/pull/2)。主机单元测试、Android 构建与真实电视 ART 逻辑测试已通过；安全 LAN 会话、电视批准、HomeView 适配和可见焦点端到端未实现。不得把历史完整产品蓝图或 G0 的建议当成现有功能。
+本节保留G1-A交付时的状态：**MarcoTV 纯焦点控制器与测试**，详见 [G1 实际验证报告](G1_DEVICE_REPORT.md) 和 [实现 PR](https://github.com/Pilipala9919/MarcoTV/pull/2)。主机单元测试、Android 构建与真实电视 ART 逻辑测试已通过；当时安全 LAN 会话、电视批准、HomeView 适配和可见焦点端到端未实现。安全假输入会话状态以上方B1更新为准，HomeView与可见焦点仍未实现。
 
 | 决策 | G1-A 处理 | 证据与后续门槛 |
 |---|---|---|
