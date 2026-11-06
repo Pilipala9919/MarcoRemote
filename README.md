@@ -8,8 +8,8 @@ Marco Remote 是面向电视与电脑的遥控项目，目前处于技术验证�
 |---|---|---|
 | G0：Android TV Remote v2 | 真实 Android 9 小米电视可通过既有 ADB 到达，但本次 v2 端口拒绝、配对未建立 | 不代表该机已支持 v2 遥控，也不外推全部小米电视 |
 | G1-A：纯焦点控制器 | MarcoTV 独立功能分支已实现并测试，Android 构建通过；真实电视 ART 的逻辑测试通过 | 没有接入 HomeView、TLS、电视授权或 LAN 请求，未证明可见焦点移动 |
-| G1-B1：安全通信与配对 | 自动化、Android构建及报告所列真实电视授权会话测试通过，含撤销、重放、空闲/绝对期限；等待阶段审查 | 仅假输入；不同场景的受测版本与未测项目单列，不代表真实焦点控制 |
-| G1-B2：真实焦点接入 | 等待B1验收 | 不提前接入HomeView/MarcoFocusController |
+| G1-B1：安全通信与配对 | 用户有条件通过，允许开始 B2 | 真机证据仅覆盖独立验证包的获批会话与假输入 |
+| G1-B2：真实焦点接入 | HomeView、独立身份、电视扫码批准与 Windows 四向 CLI 已提交；主机测试和并排 Android 构建通过。小米电视已安装并启动 | 等待实体授权与 RIGHT 前后画面，阶段未完成。[实现及验收矩阵](https://github.com/Pilipala9919/MarcoTV/pull/4) |
 
 本轮不做完整 iOS、跨应用遥控、Windows/macOS 输入接收端、电脑鼠标或虚拟游戏手柄。不增加无障碍、root 或系统输入注入权限，不自动发布 APK。
 
@@ -34,7 +34,7 @@ G1-A 的生产类与测试位于 [MarcoTV](https://github.com/Pilipala9919/Marco
 python scripts/test_marco_focus.py
 ```
 
-真实电视 ART 复测方法见 G1 报告；它不会安装 APK 或操作桌面。当前没有真实焦点网络命令；B1 Windows 假输入客户端见安全验证报告。请勿把测试用 `beginAuthorizedLease()` 当成认证入口。
+G1-A 的 ART 复测方法见 G1 报告。G1-B2 使用 Windows 的 `python remote/marco_remote.py`，通过电视屏幕上的 QR 建立独立信任关系。实体批准后，客户端可查询选中位置并请求四向移动。当前实机视觉验收待执行。[Windows 操作与取证手册](https://github.com/Pilipala9919/MarcoTV/blob/6247892d43ad05871c19a5fa606b8dbc0d057911/docs/G1_B2_HOME_FOCUS.md)
 
 ## 许可证状态
 
@@ -44,4 +44,4 @@ MarcoTV 中本轮新增控制器和测试遵循该仓库既有 **GPL-3.0-only**�
 
 ## 分支与验收
 
-MarcoTV 代码通过功能分支 PR 审查；MarcoRemote 的 G1 文档分支基于 G0 分支，G0 PR 合并前使用堆叠 PR，避免混入旧研究差异。没有修改两仓 main，也没有发布 APK。B1 真机证据、失败修复与剩余边界已交付，等待用户审查；通过后才进入 B2 真实焦点适配。
+两仓继续使用堆叠功能分支审查。B1 的有条件通过允许实现 B2。B2 的验收条件是 Windows 发出 RIGHT 后，真实电视画面上相邻卡片获得焦点。

@@ -1,8 +1,14 @@
 # Marco Remote 可落地架构
 
-更新：2026-11-06。状态：**G0已记录，G1-A纯控制器已实现，G1-B1假输入安全会话取得真机证据、待阶段审查；真实焦点接入尚未实施**。基线为 Marco TV 0.15.0 / `a9d6cb8b64fd2e9030c82addd22edc40a5e755c0`。研究证据见 [REMOTE_RESEARCH.md](REMOTE_RESEARCH.md)，阶段证据见 [G0_DEVICE_REPORT.md](G0_DEVICE_REPORT.md) 和 [G1_B1_REPORT.md](G1_B1_REPORT.md)。最新阶段调整优先；后文完整产品蓝图不代表本轮实施范围。
+更新：2026-11-06。状态：**G0已记录，G1-A纯控制器已实现，G1-B1有条件通过，G1-B2真实焦点代码已接入，等待电视 RIGHT 画面验收**。基线为 Marco TV 0.15.0 / `a9d6cb8b64fd2e9030c82addd22edc40a5e755c0`。研究证据见 [REMOTE_RESEARCH.md](REMOTE_RESEARCH.md)，阶段证据见 [G0_DEVICE_REPORT.md](G0_DEVICE_REPORT.md) 和 [G1_B1_REPORT.md](G1_B1_REPORT.md)。最新阶段调整优先；后文完整产品蓝图不代表本轮实施范围。
 
-## G1-B1 更新：安全通信与配对验证（2026-11-06）
+## G1-B2 · 自身桌面焦点已接入，真实 RIGHT 待验收
+
+用户有条件通过 B1。B2 在 MarcoTV 进程中使用自身 UID 的 KeyStore 身份，由电视主动展示光学配对二维码、批准当前 TLS 连接；Windows 使用完整带外证书进行校验。服务端把单次 challenge 绑定原始 Snapshot、epoch、布局与焦点版本以及从收帧起算的单调截止时间。HomeView 在 UI 线程检查会话与当前表面，并提交真实卡片选中位置。网络读取独立于 UI，撤销与提交在同一授权锁上排序。[实现与代码审查](https://github.com/Pilipala9919/MarcoTV/blob/6247892d43ad05871c19a5fa606b8dbc0d057911/docs/G1_B2_HOME_FOCUS.md)
+
+B2 的并排测试包已在 Android 9 小米电视启动。默认关闭时监听数为零，任务替换后进程保持且仍无监听。Windows 主机 TLS 与控制器组合测试通过。产品能力选择仍须等到实机授权 RIGHT 的双端记录与前后画面验收；活动会话上的休眠、重建、撤销、物理冲突和网络故障保留独立状态。[实机记录](https://github.com/Pilipala9919/MarcoTV/blob/6247892d43ad05871c19a5fa606b8dbc0d057911/docs/evidence/g1-b2-install-20261106.json)
+
+## G1-B1 交付时的状态（2026-11-06）
 
 最新范围与证据见 [G1-B1报告](G1_B1_REPORT.md)。独立debug验证包实现AndroidKeyStore身份、系统TLS、Windows完整pin与证书校验、短期票据/电视批准、临时连接会话、seq/challenge和撤销，命令只接假输入计数器。真实Android9已验证本机批准/拒绝、假输入、重放/过期challenge、主动断线、按钮撤销、15秒空闲和5分钟绝对期限；失败版本及修复复测单列。**技术验证交付，等待G1-B1用户审查，不自动进入B2。** 票据自然到期等仅有C/T，真实焦点仍未接入。
 
