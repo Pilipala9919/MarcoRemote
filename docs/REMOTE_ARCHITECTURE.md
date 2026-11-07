@@ -14,6 +14,8 @@ B2 的并排测试包已在 Android 9 小米电视启动。默认关闭时监听
 
 休眠补证：本机 23:35:31 先结束授权会话，系统随后停止验证进程并休眠；唤醒回到小米桌面。重新打开验证版后采样无 TCP 监听。此项只证明休眠断连和重新启动默认关闭，不证明后台存活、自动返回 Marco 或旧凭据重连拒绝；见 [休眠记录](https://github.com/Pilipala9919/MarcoTV/blob/d0e0d65/docs/evidence/g1-b2-sleep-20261107.json)。不为维持演示修改默认桌面或增加后台敏感权限。
 
+页面重建补证：活跃授权后用 NEW_TASK|CLEAR_TASK 重开并排验证版，Windows 收到 EOF，旧会话结束，同一进程中新 Activity 创建、旧 Activity 销毁，后续画面正常；见 [任务替换记录](https://github.com/Pilipala9919/MarcoTV/blob/ad64451/docs/evidence/g1-b2-recreate-20261107/observations.json)。仅覆盖显式任务替换，不扩展为配置变化恢复或所有排队命令竞态已通过。
+
 ## G1-B1 交付时的状态（2026-11-06）
 
 最新范围与证据见 [G1-B1报告](G1_B1_REPORT.md)。独立debug验证包实现AndroidKeyStore身份、系统TLS、Windows完整pin与证书校验、短期票据/电视批准、临时连接会话、seq/challenge和撤销，命令只接假输入计数器。真实Android9已验证本机批准/拒绝、假输入、重放/过期challenge、主动断线、按钮撤销、15秒空闲和5分钟绝对期限；失败版本及修复复测单列。**技术验证交付，等待G1-B1用户审查，不自动进入B2。** 票据自然到期等仅有C/T，真实焦点仍未接入。
