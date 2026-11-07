@@ -9,12 +9,13 @@ Marco Remote 是面向电视与电脑的遥控项目，目前处于技术验证�
 | G0：Android TV Remote v2 | 真实 Android 9 小米电视可通过既有 ADB 到达，但本次 v2 端口拒绝、配对未建立 | 不代表该机已支持 v2 遥控，也不外推全部小米电视 |
 | G1-A：纯焦点控制器 | MarcoTV 独立功能分支已实现并测试，Android 构建通过；真实电视 ART 的逻辑测试通过 | 没有接入 HomeView、TLS、电视授权或 LAN 请求，未证明可见焦点移动 |
 | G1-B1：安全通信与配对 | 用户有条件通过，允许开始 B2 | 真机证据仅覆盖独立验证包的获批会话与假输入 |
-| G1-B2：真实焦点接入 | HomeView、独立身份、电视扫码批准与 Windows 四向 CLI 已提交；主机测试和并排 Android 构建通过。小米电视已安装并启动 | 2026-11-07 已获电视批准并实测 RIGHT：Marco Movie → Moonlight，前后画面与状态一致。异常场景仍待验收，阶段未完成。[实现及验收矩阵](https://github.com/Pilipala9919/MarcoTV/pull/4) |
+| G1-B2：真实焦点接入 | 主机测试、并排 Android 构建通过；小米 Android 9 真实 RIGHT 可见焦点移动通过。重放、本地冲突、主动撤销、限定休眠/重建、过期命令及空闲断开已分别记录 | 物理断网和其他矩阵缺项仍待验收，阶段未完成。[真机报告](docs/G1_B2_DEVICE_REPORT.md) |
 
 本轮不做完整 iOS、跨应用遥控、Windows/macOS 输入接收端、电脑鼠标或虚拟游戏手柄。不增加无障碍、root 或系统输入注入权限，不自动发布 APK。
 
 ## 文档入口
 
+- [G1-B2 真机验证报告、验收矩阵与剩余任务](docs/G1_B2_DEVICE_REPORT.md)
 - [G1-B2 RIGHT 真机证据](https://github.com/Pilipala9919/MarcoTV/blob/b988e005f96f1d3661748a2142f90a66e10352af/docs/evidence/g1-b2-right-20261107/observations.json)
 - [G1-B1 安全通信/配对报告](docs/G1_B1_REPORT.md)
 - [G1 实际验证报告与能力矩阵](docs/G1_DEVICE_REPORT.md)

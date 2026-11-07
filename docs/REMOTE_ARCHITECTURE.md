@@ -2,21 +2,17 @@
 
 更新：2026-11-07。状态：**G0已记录，G1-A纯控制器已实现，G1-B1有条件通过，G1-B2 真实电视 RIGHT 已通过，异常场景验收未完成**。基线为 Marco TV 0.15.0 / `a9d6cb8b64fd2e9030c82addd22edc40a5e755c0`。研究证据见 [REMOTE_RESEARCH.md](REMOTE_RESEARCH.md)，阶段证据见 [G0_DEVICE_REPORT.md](G0_DEVICE_REPORT.md) 和 [G1_B1_REPORT.md](G1_B1_REPORT.md)。最新阶段调整优先；后文完整产品蓝图不代表本轮实施范围。
 
-## G1-B2 · 真实 RIGHT 已验收，异常场景仍待完成
+## G1-B2 · 核心 RIGHT 通过，完整验收未完成
 
-用户有条件通过 B1。B2 在 MarcoTV 进程中使用自身 UID 的 KeyStore 身份，由电视主动展示光学配对二维码、批准当前 TLS 连接；Windows 使用完整带外证书进行校验。服务端把单次 challenge 绑定原始 Snapshot、epoch、布局与焦点版本以及从收帧起算的单调截止时间。HomeView 在 UI 线程检查会话与当前表面，并提交真实卡片选中位置。网络读取独立于 UI，撤销与提交在同一授权锁上排序。[实现与代码审查](https://github.com/Pilipala9919/MarcoTV/blob/b988e005f96f1d3661748a2142f90a66e10352af/docs/G1_B2_HOME_FOCUS.md)
+最新逐项依据见 [G1-B2 真机报告](G1_B2_DEVICE_REPORT.md)，源码调用链与完整矩阵见 [MarcoTV 实现报告](https://github.com/Pilipala9919/MarcoTV/blob/d1ba74581587c58a56cb55d1c1a222d29034256d/docs/G1_B2_HOME_FOCUS.md)。主机测试、Android 构建与真实设备结论分别记录。
 
-B2 的并排测试包已在 Android 9 小米电视启动。默认关闭时监听数为零，任务替换后进程保持且仍无监听。Windows 主机 TLS 与控制器组合测试通过。2026-11-07 用户扫码、粘贴 Windows 并在电视批准后，真实 RIGHT 将 Marco Movie 卡片焦点移到右侧 Moonlight。双端状态显示行列 0/0 → 0/1、focusRevision 4 → 5，人工复核前后画面及用户确认一致。单次 D-UI 已通过，不代表自动能力选择或故障矩阵通过；活动会话上的休眠、重建、撤销、物理冲突和网络故障保留独立状态。[实机记录](https://github.com/Pilipala9919/MarcoTV/blob/b988e005f96f1d3661748a2142f90a66e10352af/docs/evidence/g1-b2-install-20261106.json)
+用户有条件通过 B1 后，B2 在 MarcoTV 自身进程使用独立 UID 的 KeyStore 身份，由电视主动开启光学配对并批准当前 TLS 连接。Windows 完成带外证书与完整 pin 校验后才发送票据。单次 challenge 绑定原始 Snapshot、epoch、布局/焦点版本与单调截止；UI 线程复核当前页面和授权后提交真实选中位置。网络读取独立于 UI，取消与提交在同一授权锁上排序。
 
-本次 [RIGHT 记录与截图](https://github.com/Pilipala9919/MarcoTV/tree/b988e005f96f1d3661748a2142f90a66e10352af/docs/evidence/g1-b2-right-20261107) 与此前安装、主机测试证据分开。握手成功依据是固定证书校验路径取得授权并完成真实 STATE/STEP；没有另存握手抓包，不将 B1 的假输入证据迁移为 B2 实测。
+2026-11-07 小米 Android 9 实测：Windows RIGHT 将 Marco Movie 焦点移至 Moonlight，行列 0/0 → 0/1、focusRevision 4 → 5，前后画面及用户确认一致。重复序号拒绝、打开设置撤销、本地物理右键冲突拒绝、过期 challenge 拒绝和 15.008 秒空闲断开也有独立双端记录。
 
-补充实测：2026-11-07 重复序号返回 REPLAY 并关闭连接；实体遥控打开设置后，Windows 收到 EOF，电视记录会话结束，应用仍在前台，用户确认正常。此次检查无 NetworkOnMainThreadException 或崩溃条目。两项分别见 [重放记录](https://github.com/Pilipala9919/MarcoTV/blob/8d6ef4d/docs/evidence/g1-b2-replay-20261107.json) 与 [主动撤销记录](https://github.com/Pilipala9919/MarcoTV/blob/8d6ef4d/docs/evidence/g1-b2-revoke-20261107.json)。休眠、活动会话重建、本地物理冲突和网络故障尚不能标记通过。
+休眠前会话已结束，系统随后停止验证进程，唤醒回小米桌面；重新打开验证版采样无监听。活跃任务替换时旧连接结束，同进程新页面正常。这些是限定场景结果，不表示后台存活、自动回到 Marco、配置恢复或所有排队竞态通过。未修改默认桌面或增加敏感权限。
 
-休眠补证：本机 23:35:31 先结束授权会话，系统随后停止验证进程并休眠；唤醒回到小米桌面。重新打开验证版后采样无 TCP 监听。此项只证明休眠断连和重新启动默认关闭，不证明后台存活、自动返回 Marco 或旧凭据重连拒绝；见 [休眠记录](https://github.com/Pilipala9919/MarcoTV/blob/d0e0d65/docs/evidence/g1-b2-sleep-20261107.json)。不为维持演示修改默认桌面或增加后台敏感权限。
-
-页面重建补证：活跃授权后用 NEW_TASK|CLEAR_TASK 重开并排验证版，Windows 收到 EOF，旧会话结束，同一进程中新 Activity 创建、旧 Activity 销毁，后续画面正常；见 [任务替换记录](https://github.com/Pilipala9919/MarcoTV/blob/ad64451/docs/evidence/g1-b2-recreate-20261107/observations.json)。仅覆盖显式任务替换，不扩展为配置变化恢复或所有排队命令竞态已通过。
-
-物理遥控冲突补证：第二次定时实验中实体右键操作后，原快照命令在 Windows 和电视端均返回 STALE_FOCUS；[实测记录](https://github.com/Pilipala9919/MarcoTV/blob/3b1a189/docs/evidence/g1-b2-local-conflict-20261107.json)。首次用户错过提示的 MOVED 记录保留为未验证。用户当前无法在电视 UI 外仅中断电视网络，物理断网/静默丢包明确待测，不用打开设置导致的撤销或普通 EOF 替代。
+当前设备阻塞是独立物理断网/静默丢包：用户暂不能在电视 UI 外仅中断电视网络，不能拿打开设置导致的撤销或普通 EOF 替代。其余方向、拒绝/错误证书、旧凭据重连、B2 五分钟绝对期限等留在报告待测清单。PR 保持草稿，未宣告自动能力选择、正式发行或整个阶段完成。
 
 ## G1-B1 交付时的状态（2026-11-06）
 
