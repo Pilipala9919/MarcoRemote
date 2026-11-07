@@ -10,6 +10,8 @@ B2 的并排测试包已在 Android 9 小米电视启动。默认关闭时监听
 
 本次 [RIGHT 记录与截图](https://github.com/Pilipala9919/MarcoTV/tree/b988e005f96f1d3661748a2142f90a66e10352af/docs/evidence/g1-b2-right-20261107) 与此前安装、主机测试证据分开。握手成功依据是固定证书校验路径取得授权并完成真实 STATE/STEP；没有另存握手抓包，不将 B1 的假输入证据迁移为 B2 实测。
 
+补充实测：2026-11-07 重复序号返回 REPLAY 并关闭连接；实体遥控打开设置后，Windows 收到 EOF，电视记录会话结束，应用仍在前台，用户确认正常。此次检查无 NetworkOnMainThreadException 或崩溃条目。两项分别见 [重放记录](https://github.com/Pilipala9919/MarcoTV/blob/8d6ef4d/docs/evidence/g1-b2-replay-20261107.json) 与 [主动撤销记录](https://github.com/Pilipala9919/MarcoTV/blob/8d6ef4d/docs/evidence/g1-b2-revoke-20261107.json)。休眠、活动会话重建、本地物理冲突和网络故障尚不能标记通过。
+
 ## G1-B1 交付时的状态（2026-11-06）
 
 最新范围与证据见 [G1-B1报告](G1_B1_REPORT.md)。独立debug验证包实现AndroidKeyStore身份、系统TLS、Windows完整pin与证书校验、短期票据/电视批准、临时连接会话、seq/challenge和撤销，命令只接假输入计数器。真实Android9已验证本机批准/拒绝、假输入、重放/过期challenge、主动断线、按钮撤销、15秒空闲和5分钟绝对期限；失败版本及修复复测单列。**技术验证交付，等待G1-B1用户审查，不自动进入B2。** 票据自然到期等仅有C/T，真实焦点仍未接入。
