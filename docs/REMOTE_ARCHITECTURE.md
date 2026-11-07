@@ -16,6 +16,8 @@ B2 的并排测试包已在 Android 9 小米电视启动。默认关闭时监听
 
 页面重建补证：活跃授权后用 NEW_TASK|CLEAR_TASK 重开并排验证版，Windows 收到 EOF，旧会话结束，同一进程中新 Activity 创建、旧 Activity 销毁，后续画面正常；见 [任务替换记录](https://github.com/Pilipala9919/MarcoTV/blob/ad64451/docs/evidence/g1-b2-recreate-20261107/observations.json)。仅覆盖显式任务替换，不扩展为配置变化恢复或所有排队命令竞态已通过。
 
+物理遥控冲突补证：第二次定时实验中实体右键操作后，原快照命令在 Windows 和电视端均返回 STALE_FOCUS；[实测记录](https://github.com/Pilipala9919/MarcoTV/blob/3b1a189/docs/evidence/g1-b2-local-conflict-20261107.json)。首次用户错过提示的 MOVED 记录保留为未验证。用户当前无法在电视 UI 外仅中断电视网络，物理断网/静默丢包明确待测，不用打开设置导致的撤销或普通 EOF 替代。
+
 ## G1-B1 交付时的状态（2026-11-06）
 
 最新范围与证据见 [G1-B1报告](G1_B1_REPORT.md)。独立debug验证包实现AndroidKeyStore身份、系统TLS、Windows完整pin与证书校验、短期票据/电视批准、临时连接会话、seq/challenge和撤销，命令只接假输入计数器。真实Android9已验证本机批准/拒绝、假输入、重放/过期challenge、主动断线、按钮撤销、15秒空闲和5分钟绝对期限；失败版本及修复复测单列。**技术验证交付，等待G1-B1用户审查，不自动进入B2。** 票据自然到期等仅有C/T，真实焦点仍未接入。
