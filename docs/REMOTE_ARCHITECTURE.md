@@ -1,12 +1,14 @@
 # Marco Remote 可落地架构
 
-更新：2026-11-06。状态：**G0已记录，G1-A纯控制器已实现，G1-B1有条件通过，G1-B2真实焦点代码已接入，等待电视 RIGHT 画面验收**。基线为 Marco TV 0.15.0 / `a9d6cb8b64fd2e9030c82addd22edc40a5e755c0`。研究证据见 [REMOTE_RESEARCH.md](REMOTE_RESEARCH.md)，阶段证据见 [G0_DEVICE_REPORT.md](G0_DEVICE_REPORT.md) 和 [G1_B1_REPORT.md](G1_B1_REPORT.md)。最新阶段调整优先；后文完整产品蓝图不代表本轮实施范围。
+更新：2026-11-07。状态：**G0已记录，G1-A纯控制器已实现，G1-B1有条件通过，G1-B2 真实电视 RIGHT 已通过，异常场景验收未完成**。基线为 Marco TV 0.15.0 / `a9d6cb8b64fd2e9030c82addd22edc40a5e755c0`。研究证据见 [REMOTE_RESEARCH.md](REMOTE_RESEARCH.md)，阶段证据见 [G0_DEVICE_REPORT.md](G0_DEVICE_REPORT.md) 和 [G1_B1_REPORT.md](G1_B1_REPORT.md)。最新阶段调整优先；后文完整产品蓝图不代表本轮实施范围。
 
-## G1-B2 · 自身桌面焦点已接入，真实 RIGHT 待验收
+## G1-B2 · 真实 RIGHT 已验收，异常场景仍待完成
 
-用户有条件通过 B1。B2 在 MarcoTV 进程中使用自身 UID 的 KeyStore 身份，由电视主动展示光学配对二维码、批准当前 TLS 连接；Windows 使用完整带外证书进行校验。服务端把单次 challenge 绑定原始 Snapshot、epoch、布局与焦点版本以及从收帧起算的单调截止时间。HomeView 在 UI 线程检查会话与当前表面，并提交真实卡片选中位置。网络读取独立于 UI，撤销与提交在同一授权锁上排序。[实现与代码审查](https://github.com/Pilipala9919/MarcoTV/blob/6247892d43ad05871c19a5fa606b8dbc0d057911/docs/G1_B2_HOME_FOCUS.md)
+用户有条件通过 B1。B2 在 MarcoTV 进程中使用自身 UID 的 KeyStore 身份，由电视主动展示光学配对二维码、批准当前 TLS 连接；Windows 使用完整带外证书进行校验。服务端把单次 challenge 绑定原始 Snapshot、epoch、布局与焦点版本以及从收帧起算的单调截止时间。HomeView 在 UI 线程检查会话与当前表面，并提交真实卡片选中位置。网络读取独立于 UI，撤销与提交在同一授权锁上排序。[实现与代码审查](https://github.com/Pilipala9919/MarcoTV/blob/b988e005f96f1d3661748a2142f90a66e10352af/docs/G1_B2_HOME_FOCUS.md)
 
-B2 的并排测试包已在 Android 9 小米电视启动。默认关闭时监听数为零，任务替换后进程保持且仍无监听。Windows 主机 TLS 与控制器组合测试通过。产品能力选择仍须等到实机授权 RIGHT 的双端记录与前后画面验收；活动会话上的休眠、重建、撤销、物理冲突和网络故障保留独立状态。[实机记录](https://github.com/Pilipala9919/MarcoTV/blob/6247892d43ad05871c19a5fa606b8dbc0d057911/docs/evidence/g1-b2-install-20261106.json)
+B2 的并排测试包已在 Android 9 小米电视启动。默认关闭时监听数为零，任务替换后进程保持且仍无监听。Windows 主机 TLS 与控制器组合测试通过。2026-11-07 用户扫码、粘贴 Windows 并在电视批准后，真实 RIGHT 将 Marco Movie 卡片焦点移到右侧 Moonlight。双端状态显示行列 0/0 → 0/1、focusRevision 4 → 5，人工复核前后画面及用户确认一致。单次 D-UI 已通过，不代表自动能力选择或故障矩阵通过；活动会话上的休眠、重建、撤销、物理冲突和网络故障保留独立状态。[实机记录](https://github.com/Pilipala9919/MarcoTV/blob/b988e005f96f1d3661748a2142f90a66e10352af/docs/evidence/g1-b2-install-20261106.json)
+
+本次 [RIGHT 记录与截图](https://github.com/Pilipala9919/MarcoTV/tree/b988e005f96f1d3661748a2142f90a66e10352af/docs/evidence/g1-b2-right-20261107) 与此前安装、主机测试证据分开。握手成功依据是固定证书校验路径取得授权并完成真实 STATE/STEP；没有另存握手抓包，不将 B1 的假输入证据迁移为 B2 实测。
 
 ## G1-B1 交付时的状态（2026-11-06）
 
